@@ -78,13 +78,10 @@ app.post('/api/message', function(req, res) {
      if (err) {
       return res.status(err.code || 500).json(err);
      }
-     console.log('data from conversation: ' + JSON.stringify(data));
-     console.log('data output from conversation: ' + JSON.stringify(data.output));
      if (data.output && data.output.action) {
         var outaction = JSON.stringify(data.output.action);
 	if(outaction.indexOf(discoveryCall) > -1) {
 
-console.log('calling discovery');
 	  var user_input = data.input.text;
 	  var qclass = data.context.qclass;
 	  // One option is to pass user questions as a natural language query to Discovery
@@ -109,7 +106,6 @@ console.log('calling discovery');
 	  }	
 	  // Add a filter field
 	  var filterText = "qclass::" + qclass;
-	  console.log('filter text: ' + filterText);
 	  var discovery_payload = {
 		environment_id: discovery_environment_id,
                 collection_id: discovery_collection_id,
@@ -117,15 +113,11 @@ console.log('calling discovery');
 		passages: false,
 		filter: filterText
           };
-	  console.log('discovery payload: ' + JSON.stringify(discovery_payload));
 	  discovery.query(discovery_payload, function(error, discovery_response) {
 	    if(error) {
 	      return res.status(error.code || 500).json(error);
 	    }
-	    console.log("here is the response from discovery"); 
-	    console.log("\n\n\n");
 
-	   console.log('discovery response: ' + JSON.stringify(discovery_response));
 	   var resp = data;
 	   // return a maximum of 3 responses from Discovery
 	   // In the following option we return the top 3 documents from Discovery
