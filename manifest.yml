@@ -1,0 +1,9 @@
+applications:
+- name: conv-ded
+  command: npm start
+  path: .
+  domain: mybluemix.net
+  memory: 256M
+  instances: 1
+env:
+  NPM_CONFIG_PRODUCTION: false
