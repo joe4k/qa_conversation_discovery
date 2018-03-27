@@ -86,13 +86,15 @@ app.post('/api/message', function(req, res) {
 	  var qclass = data.context.qclass;
 	  // One option is to pass user questions as a natural language query to Discovery
 	  // The following payload shows how to do so
-/*
+
 	  var discovery_payload = {
 		environment_id: discovery_environment_id,
 		collection_id: discovery_collection_id,
-		natural_language_query: user_input
+		natural_language_query: user_input,
+		passages: true
 	  };
-*/
+
+/*
 	  // Another option is to send the user input as a query using Discovery Query Language
 	  // and search against a set of fields defined in the .env variable (DISCOVERY_QUERY_FIELDS)
 	  // In the following payload, we leverage Discovery query language where we can query specific fields.
@@ -113,6 +115,7 @@ app.post('/api/message', function(req, res) {
 		passages: false,
 		filter: filterText
           };
+*/
 	  discovery.query(discovery_payload, function(error, discovery_response) {
 	    if(error) {
 	      return res.status(error.code || 500).json(error);
@@ -122,6 +125,7 @@ app.post('/api/message', function(req, res) {
 	   // return a maximum of 3 responses from Discovery
 	   // In the following option we return the top 3 documents from Discovery
 
+/*
 	   var numResults = discovery_response.results.length;
 	   var nResponses = 0;
 	   if (numResults > 3) {
@@ -134,7 +138,7 @@ app.post('/api/message', function(req, res) {
 	     resp.output.text = resp.output.text + discovery_response.results[i].text;
 	   }
 
-/*
+*/
 	   // In the following option, we return top 3 passages instead of complete documents
 	   var numResults = discovery_response.passages.length;
 	   var nResponses = 0;
@@ -147,7 +151,7 @@ app.post('/api/message', function(req, res) {
 	   for (var i = 0; i < nResponses; i++) {
 	     resp.output.text = resp.output.text + discovery_response.passages[i].passage_text + "<br></br><br></br>";
 	   }
-*/
+
 
 	   return res.json(resp);
 	  });
